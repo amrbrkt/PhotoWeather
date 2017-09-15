@@ -28,7 +28,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutResource());
         activity = this;
         ButterKnife.bind(this);
-        Fresco.initialize(this);
+        if (!Fresco.hasBeenInitialized()) {
+            Fresco.initialize(this);
+        }
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

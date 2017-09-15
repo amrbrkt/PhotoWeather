@@ -2,6 +2,7 @@ package barakat.amr.photoweather.weather;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.FileNotFoundException;
+
 import barakat.amr.photoweather.Constants;
 import barakat.amr.photoweather.R;
 import barakat.amr.photoweather.base.BaseActivity;
@@ -32,6 +35,7 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
     ProgressBar progressBar;
     private GoogleApiClient googleApiClient;
     private ImageWeatherPresenter presenter = new ImageWeatherPresenter();
+    private Uri fileUri;
 
     @Override
     protected int getActivityTitle() {
@@ -52,8 +56,8 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
     protected void afterActivityInflation() {
         presenter.attachView(this);
         if (getIntent() != null) {
-            Uri fileUri = Uri.parse(getIntent().getStringExtra(Constants.IMAGE_URI));
-            imageView.setImageURI(fileUri);
+            fileUri = Uri.parse(getIntent().getStringExtra(Constants.IMAGE_URI));
+            //imageView.setImageURI(fileUri);
             presenter.getLocation(this);
         } else {
             Toast.makeText(activity, "An Error Occurred", Toast.LENGTH_SHORT).show();
@@ -89,11 +93,22 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
     @Override
     public void onWeatherUpdate(Weather weather) {
         Toast.makeText(activity, String.valueOf(weather.getMain().getTempMax()), Toast.LENGTH_LONG).show();
+        Bitmap newbitmap;
+        try {
+            newbitmap = ImageWeatherUtils.writeOnImage(getContentResolver().openInputStream(fileUri),
+                    String.valueOf(weather.getMain().getTempMax()),
+                    weather.getWeather().get(0).getMain(),
+                    weather.getSys().getCountry());
+            imageView.setImageBitmap(newbitmap);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(activity, "Failed to draw text", Toast.LENGTH_SHORT).show();
+            imageView.setImageURI(fileUri);
+        }
     }
 
     @Override
     public void onWeatherFailed(String cause) {
-        Log.d("Weater Failed", cause);
+        Log.d("Weather Failed", cause);
         Toast.makeText(activity, "Weather failed: " + cause, Toast.LENGTH_LONG).show();
     }
 
