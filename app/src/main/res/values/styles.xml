@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -15,6 +15,16 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <style name="AppTheme.AppBarOverlay.Transparent" parent="AppTheme.AppBarOverlay">
+        <item name="android:toolbarStyle" tools:targetApi="lollipop">
+            @style/ToolbarTransparentStyle
+        </item>
+    </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ToolbarTransparentStyle" parent="Base.Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/colorAccent</item>
+    </style>
 
 </resources>

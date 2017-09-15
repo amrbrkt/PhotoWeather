@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import barakat.amr.photoweather.R;
 import butterknife.BindView;
@@ -25,14 +28,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutResource());
         activity = this;
         ButterKnife.bind(this);
+        Fresco.initialize(this);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getActivityTitle());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(isUpEnabled());
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
         }
 
         afterActivityInflation();
     }
+
+    protected abstract boolean isUpEnabled();
 
     protected abstract
     @StringRes

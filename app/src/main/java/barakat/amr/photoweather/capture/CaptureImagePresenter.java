@@ -1,9 +1,13 @@
 package barakat.amr.photoweather.capture;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.net.Uri;
+import android.provider.MediaStore;
+
+import barakat.amr.photoweather.Constants;
+import barakat.amr.photoweather.weather.ImageWeatherActivity;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
@@ -27,15 +31,16 @@ public class CaptureImagePresenter implements CaptureImageContract.Presenter {
     }
 
     @Override
-    public void captureImageOnUri(Uri fileUri) {
-        try {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            //options.inSampleSize = 8;
-            final Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(),
-                    options);
-            view.onCaptureSuccess(bitmap);
-        } catch (NullPointerException e) {
-            view.onCaptureFailure(e.getMessage());
-        }
+    public void openCamera(Activity activity, Uri fileUri) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        activity.startActivityForResult(intent, Constants.CAMERA_REQUEST_CODE);
+    }
+
+    @Override
+    public void startWeatherActivity(Activity activity, Uri fileUri) {
+        Intent intent = new Intent(activity, ImageWeatherActivity.class);
+        intent.putExtra(Constants.IMAGE_URI, fileUri.toString());
+        activity.startActivity(intent);
     }
 }
