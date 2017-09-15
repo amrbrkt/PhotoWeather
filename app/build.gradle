@@ -39,4 +39,8 @@ dependencies {
     //ImageLoading (fresco)
     compile 'com.facebook.fresco:fresco:1.5.0'
 
+    //Google Play Service
+    compile "com.google.android.gms:play-services:$rootProject.ext.playserviceVersion"
+    compile "com.google.android.gms:play-services-location:$rootProject.ext.playserviceVersion"
+
 }

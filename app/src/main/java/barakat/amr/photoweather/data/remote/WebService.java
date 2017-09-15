@@ -5,7 +5,9 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-interface WebService {
-    @GET("weather/")
-    Call<Weather> getWeather(@Query("lat") double lat, @Query("lon") double lon);
+public interface WebService {
+    @GET("weather/?units=metric")
+    Call<Weather> getWeather(@Query("lat") double lat,
+                             @Query("lon") double lon,
+                             @Query("appid") String id);
 }

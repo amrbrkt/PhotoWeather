@@ -7,15 +7,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
     private static RestClient client;
-    private static WebService mWebService;
+    private WebService mWebService;
 
-    public RestClient() {
+    private RestClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor(new LoggingInterceptor());
         Retrofit restAdapter = new Retrofit.Builder()
                 .client(builder.build())
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        mWebService = restAdapter.create(WebService.class);
     }
 
     public static RestClient getInstance() {
@@ -25,7 +27,7 @@ public class RestClient {
         return client;
     }
 
-    public static WebService getWebService() {
+    public WebService getWebService() {
         return mWebService;
     }
 }
