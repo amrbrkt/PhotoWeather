@@ -12,4 +12,6 @@ public class Constants {
     //APIs Constants
     public static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
     public static String APP_ID = "9ef6f7dfbeddbcc60e50407927243b4e";
+
+    public static final String IMAGE_DIRECTORY_NAME = "PhotoWeather";
 }

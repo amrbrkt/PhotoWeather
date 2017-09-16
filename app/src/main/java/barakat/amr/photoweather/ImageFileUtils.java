@@ -1,15 +1,32 @@
-package barakat.amr.photoweather.imageweather;
+package barakat.amr.photoweather;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Environment;
 
+import java.io.File;
 import java.io.InputStream;
 
-public class ImageWeatherUtils {
+public class ImageFileUtils {
+    public static boolean isDeviceSupportCamera(Context context) {
+        return context.getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_CAMERA);
+    }
+
+
+    public static File getImageDirectory() {
+        return new File(
+                Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                Constants.IMAGE_DIRECTORY_NAME);
+    }
+
     public static Bitmap writeOnImage(InputStream stream, String temp, String condition, String location) {
         BitmapFactory.Options option = new BitmapFactory.Options();
         option.inSampleSize = 2;
@@ -29,7 +46,7 @@ public class ImageWeatherUtils {
         Paint tempPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         tempPaint.setColor(Color.WHITE);
         tempPaint.setStyle(Paint.Style.FILL);
-        tempPaint.setTextSize(200);
+        tempPaint.setTextSize(newImage.getWidth() / 2);
         tempPaint.setShadowLayer(3f, -2f, 2f, Color.BLACK);
 
         Rect tempRect = new Rect();
@@ -42,7 +59,7 @@ public class ImageWeatherUtils {
         Paint conditionPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         conditionPaint.setColor(Color.WHITE);
         conditionPaint.setStyle(Paint.Style.FILL);
-        conditionPaint.setTextSize(100);
+        conditionPaint.setTextSize(newImage.getWidth() / 4);
         conditionPaint.setShadowLayer(3f, -2f, 2f, Color.BLACK);
 
         Rect conditionRect = new Rect();
@@ -55,7 +72,7 @@ public class ImageWeatherUtils {
         Paint locationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         locationPaint.setColor(Color.WHITE);
         locationPaint.setStyle(Paint.Style.FILL);
-        locationPaint.setTextSize(100);
+        locationPaint.setTextSize(newImage.getWidth() / 4);
         locationPaint.setShadowLayer(3f, -2f, 2f, Color.BLACK);
 
         Rect locationRect = new Rect();

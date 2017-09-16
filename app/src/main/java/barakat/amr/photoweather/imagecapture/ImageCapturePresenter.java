@@ -9,6 +9,8 @@ import android.provider.MediaStore;
 import java.util.List;
 
 import barakat.amr.photoweather.Constants;
+import barakat.amr.photoweather.ImageFileUtils;
+import barakat.amr.photoweather.data.AppDataManager;
 import barakat.amr.photoweather.imageweather.ImageWeatherActivity;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
@@ -17,6 +19,10 @@ public class ImageCapturePresenter implements ImageCaptureContract.Presenter {
 
     private ImageCaptureContract.View view;
 
+    public ImageCapturePresenter() {
+        AppDataManager.getInstance().attachCapturePresenter(this);
+    }
+
     @Override
     public void attachView(ImageCaptureContract.View view) {
         this.view = view;
@@ -24,9 +30,8 @@ public class ImageCapturePresenter implements ImageCaptureContract.Presenter {
 
     @Override
     public void captureImageRequest(Context context) {
-        if (ImageCaptureUtils.isDeviceSupportCamera(context)) {
-            Uri fileUri = ImageCaptureUtils.getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-            view.onCaptureReady(true, fileUri);
+        if (ImageFileUtils.isDeviceSupportCamera(context)) {
+            AppDataManager.getInstance().writeImageFile(MEDIA_TYPE_IMAGE);
         } else {
             view.onCaptureReady(true, null);
         }
@@ -48,12 +53,24 @@ public class ImageCapturePresenter implements ImageCaptureContract.Presenter {
 
     @Override
     public void getSavedImages(Context context) {
+        AppDataManager.getInstance().readSavedImages();
+    }
 
-        List<String> paths = ImageCaptureUtils.getPaths();
+    @Override
+    public void onLocalDataLoaded(List<String> paths) {
         if (paths != null && paths.size() > 0) {
             view.onLocalDataLoaded(paths);
-        }else {
+        } else {
             view.onLocalDataIsEmpty();
+        }
+    }
+
+    @Override
+    public void returnMediaFile(Uri uri) {
+        if (uri != null) {
+            view.onCaptureReady(true, uri);
+        } else {
+            view.onCaptureReady(true, null);
         }
     }
 }

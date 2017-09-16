@@ -12,7 +12,7 @@ import barakat.amr.photoweather.data.model.Weather;
 
 public class ImageWeatherContract {
 
-    interface Presenter {
+    public interface Presenter {
         void attachView(View view);
 
         void getLocation(Activity activity);
@@ -20,6 +20,10 @@ public class ImageWeatherContract {
         void getWeatherOf(double lat, double lon);
 
         void drawOnImage(Context context, Uri fileUri, Weather weather) throws FileNotFoundException;
+
+        void onWeatherUpdate(Weather weather);
+
+        void returnAfterDraw(Uri fileUri);
     }
 
     public interface View {

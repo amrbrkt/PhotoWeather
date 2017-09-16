@@ -1,4 +1,4 @@
-package barakat.amr.photoweather.imageweather;
+package barakat.amr.photoweather.data;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -13,10 +13,10 @@ public class BitmapWorkerTask extends AsyncTask<Bitmap, Void, Uri> {
 
     private Uri fileUri;
     private FileOutputStream fOut;
-    private ImageWeatherContract.View view;
+    private DataManager manager;
 
-    public BitmapWorkerTask(Uri fileUri, ImageWeatherContract.View view) throws FileNotFoundException {
-        this.view = view;
+    public BitmapWorkerTask(Uri fileUri, DataManager manager) throws FileNotFoundException {
+        this.manager = manager;
         this.fileUri = fileUri;
         File file = new File(fileUri.getPath());
         fOut = new FileOutputStream(file);
@@ -31,8 +31,7 @@ public class BitmapWorkerTask extends AsyncTask<Bitmap, Void, Uri> {
 
     @Override
     protected void onPostExecute(Uri fileUri) {
-        view.showLoading(false);
-        view.onTextDrawn(fileUri);
+        manager.onDrawnOut(fileUri);
     }
 
 }

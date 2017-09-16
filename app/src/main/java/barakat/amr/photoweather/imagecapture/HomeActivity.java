@@ -93,4 +93,5 @@ public class HomeActivity extends BaseActivity implements ImageCaptureContract.V
         recyclerView.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
     }
+
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import java.io.File;
 import java.util.List;
 
 public interface ImageCaptureContract {
@@ -18,6 +19,10 @@ public interface ImageCaptureContract {
         void startWeatherActivity(Activity activity, Uri fileUri);
 
         void getSavedImages(Context context);
+
+        void onLocalDataLoaded(List<String> paths);
+
+        void returnMediaFile(Uri uri);
     }
 
     interface View {
