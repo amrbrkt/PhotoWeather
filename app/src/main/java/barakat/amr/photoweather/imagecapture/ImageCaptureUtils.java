@@ -2,21 +2,16 @@ package barakat.amr.photoweather.imagecapture;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import barakat.amr.photoweather.imageweather.ImageWeatherContract;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
@@ -39,9 +34,7 @@ public class ImageCaptureUtils {
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 IMAGE_DIRECTORY_NAME);
     }
-    /**
-     * returning image / video
-     */
+
     private static File getOutputMediaFile(int type) {
 
         // External sdcard location
@@ -68,15 +61,6 @@ public class ImageCaptureUtils {
         }
 
         return mediaFile;
-    }
-
-    public static void saveOnUri(Uri fileUri, Bitmap bitmap, ImageWeatherContract.View view) throws IOException {
-        File file = new File(fileUri.getPath());
-        FileOutputStream fOut = new FileOutputStream(file);
-
-        bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
-        fOut.flush();
-        fOut.close();
     }
 
     public static List<String> getPaths() {

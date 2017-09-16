@@ -16,7 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import barakat.amr.photoweather.Constants;
-import barakat.amr.photoweather.imagecapture.ImageCaptureUtils;
 import barakat.amr.photoweather.data.model.Weather;
 import barakat.amr.photoweather.data.remote.RestClient;
 import retrofit2.Call;
@@ -75,16 +74,11 @@ public class ImageWeatherPresenter implements ImageWeatherContract.Presenter {
                 String.valueOf(weather.getMain().getTempMax()),
                 weather.getWeather().get(0).getMain(),
                 weather.getSys().getCountry());
-
-
         try {
-            ImageCaptureUtils.saveOnUri(fileUri, newBitmap, view);
+            BitmapWorkerTask task = new BitmapWorkerTask(fileUri, view);
+            task.execute(newBitmap);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        view.showLoading(false);
-        view.onTextDrawn(fileUri);
-
-
     }
 }

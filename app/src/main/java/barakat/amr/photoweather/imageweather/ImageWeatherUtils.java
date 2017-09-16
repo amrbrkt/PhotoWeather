@@ -18,7 +18,7 @@ public class ImageWeatherUtils {
 
         Bitmap.Config config = bm.getConfig();
         if (config == null) {
-            config = android.graphics.Bitmap.Config.ARGB_8888;
+            config = android.graphics.Bitmap.Config.RGB_565;
         }
 
         Bitmap newImage = bm.copy(config, true);
