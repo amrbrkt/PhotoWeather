@@ -41,12 +41,8 @@ public class HomeActivity extends BaseActivity implements ImageCaptureContract.V
     @Override
     protected void afterActivityInflation() {
         presenter.attachView(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         presenter.requestPermissions(this);
+
     }
 
     @Override

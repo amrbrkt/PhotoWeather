@@ -31,6 +31,8 @@ public class AppDataManager implements DataManager {
     private static AppDataManager instance;
     private ImageCaptureContract.Presenter capturePresenter;
     private ImageWeatherContract.Presenter weatherPresenter;
+    private File mediaFile = null;
+    private Uri uri;
 
     public static AppDataManager getInstance() {
         if (instance == null) {
@@ -92,27 +94,26 @@ public class AppDataManager implements DataManager {
                 capturePresenter.returnMediaFile(null);
             }
         }
-        File imagePath = new File(context.getFilesDir(), "images");
-        File mediaFile = null;
+        mediaFile = null;
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + DateUtils.getTimeStamp() + ".jpg");
         } else {
             capturePresenter.returnMediaFile(null);
         }
-        Uri uri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".barakat.amr.photoweather.provider", mediaFile);
+        uri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".barakat.amr.photoweather.provider", mediaFile);
         capturePresenter.returnMediaFile(uri);
 
     }
 
     @Override
     public void drawOnImage(Context context, Weather weather, Uri fileUri) throws FileNotFoundException {
-        final Bitmap newBitmap = ImageFileUtils.writeOnImage(context.getContentResolver().openInputStream(fileUri),
+        final Bitmap newBitmap = ImageFileUtils.writeOnImage(context.getContentResolver().openInputStream(uri),
                 String.valueOf(weather.getMain().getTempMax()),
                 weather.getWeather().get(0).getMain(),
                 weather.getSys().getCountry());
         try {
-            BitmapWorkerTask task = new BitmapWorkerTask(fileUri, this);
+            BitmapWorkerTask task = new BitmapWorkerTask(context, uri, this);
             task.execute(newBitmap);
         } catch (IOException e) {
             e.printStackTrace();

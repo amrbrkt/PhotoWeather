@@ -1,25 +1,24 @@
 package barakat.amr.photoweather.data;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 
 public class BitmapWorkerTask extends AsyncTask<Bitmap, Void, Uri> {
 
     private Uri fileUri;
-    private FileOutputStream fOut;
+    private OutputStream fOut;
     private DataManager manager;
 
-    public BitmapWorkerTask(Uri fileUri, DataManager manager) throws FileNotFoundException {
+    public BitmapWorkerTask(Context context, Uri fileUri, DataManager manager) throws FileNotFoundException {
         this.manager = manager;
         this.fileUri = fileUri;
-        File file = new File(fileUri.getPath());
-        fOut = new FileOutputStream(file);
+        fOut = context.getContentResolver().openOutputStream(fileUri);
     }
 
     @Override
