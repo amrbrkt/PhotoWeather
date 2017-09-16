@@ -15,6 +15,7 @@ import java.util.List;
 import barakat.amr.photoweather.Constants;
 import barakat.amr.photoweather.ImageFileUtils;
 import barakat.amr.photoweather.R;
+import barakat.amr.photoweather.imageweather.ImageWeatherActivity;
 
 
 public class ImagesAdapter extends RecyclerView.Adapter<ImageViewHolder> {
@@ -42,8 +43,9 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImageViewHolder> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ImageViewActivity.class);
+                    Intent intent = new Intent(context, ImageWeatherActivity.class);
                     intent.putExtra(Constants.IMAGE_URI, fullPath);
+                    intent.putExtra(Constants.IMAGE_VIEW, true);
                     context.startActivity(intent);
                 }
             });

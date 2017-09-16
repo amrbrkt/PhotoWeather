@@ -31,10 +31,6 @@
             android:name=".imageweather.ImageWeatherActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".imagecapture.ImageViewActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -65,11 +65,21 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
         presenter.attachView(this);
         if (getIntent() != null) {
             fileUri = Uri.parse(getIntent().getStringExtra(Constants.IMAGE_URI));
-            presenter.getLocation(this);
+            boolean isViewOnly = getIntent().getBooleanExtra(Constants.IMAGE_VIEW, false);
+            if (isViewOnly) {
+                viewImage();
+            } else {
+                presenter.getLocation(this);
+            }
         } else {
             Toast.makeText(activity, "An Error Occurred", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    private void viewImage() {
+        showLoading(false);
+        onTextDrawn(fileUri);
     }
 
     @Override
@@ -153,7 +163,7 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
-        sharingIntent.setType("image/png");
+        sharingIntent.setType("image/*");
 
         PackageManager packageManager = getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(sharingIntent, 0);
@@ -176,7 +186,9 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
 
     @Override
     protected void onStop() {
-        googleApiClient.disconnect();
+        if (googleApiClient != null) {
+            googleApiClient.disconnect();
+        }
         super.onStop();
     }
 }
