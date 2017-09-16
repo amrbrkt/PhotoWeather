@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-
 import barakat.amr.photoweather.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,9 +26,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutResource());
         activity = this;
         ButterKnife.bind(this);
-        if (!Fresco.hasBeenInitialized()) {
-            Fresco.initialize(this);
-        }
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

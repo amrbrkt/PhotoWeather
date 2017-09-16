@@ -11,7 +11,10 @@ import java.io.InputStream;
 
 public class ImageWeatherUtils {
     public static Bitmap writeOnImage(InputStream stream, String temp, String condition, String location) {
-        Bitmap bm = BitmapFactory.decodeStream(stream);
+        BitmapFactory.Options option = new BitmapFactory.Options();
+        option.inSampleSize = 2;
+
+        Bitmap bm = BitmapFactory.decodeStream(stream, null, option);
 
         Bitmap.Config config = bm.getConfig();
         if (config == null) {

@@ -41,13 +41,12 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
 
-    //ImageLoading (fresco)
-    compile 'com.facebook.fresco:fresco:1.5.0'
+    //ImageLoading (Glide)
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.ext.glideVersion"
 
     //Google Play Service
-    compile "com.google.android.gms:play-services:$rootProject.ext.playserviceVersion"
+    //compile "com.google.android.gms:play-services:$rootProject.ext.playserviceVersion"
     compile "com.google.android.gms:play-services-location:$rootProject.ext.playserviceVersion"
 
 }
