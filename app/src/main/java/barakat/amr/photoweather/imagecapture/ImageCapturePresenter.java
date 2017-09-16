@@ -52,6 +52,8 @@ public class ImageCapturePresenter implements ImageCaptureContract.Presenter {
         List<String> paths = ImageCaptureUtils.getPaths();
         if (paths != null && paths.size() > 0) {
             view.onLocalDataLoaded(paths);
+        }else {
+            view.onLocalDataIsEmpty();
         }
     }
 }

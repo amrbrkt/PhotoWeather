@@ -24,6 +24,8 @@ public interface ImageCaptureContract {
         void onCaptureReady(boolean isReady, Uri fileUri);
 
         void onLocalDataLoaded(List<String> paths);
+
+        void onLocalDataIsEmpty();
     }
 }
 

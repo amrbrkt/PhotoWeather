@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -18,6 +20,8 @@ import butterknife.OnClick;
 public class HomeActivity extends BaseActivity implements ImageCaptureContract.View {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.emptyView)
+    TextView emptyView;
 
     private ImageCapturePresenter presenter = new ImageCapturePresenter();
     private Uri fileUri;
@@ -76,9 +80,17 @@ public class HomeActivity extends BaseActivity implements ImageCaptureContract.V
 
     @Override
     public void onLocalDataLoaded(List<String> paths) {
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
         ImagesAdapter adapter = new ImagesAdapter(this, paths);
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onLocalDataIsEmpty() {
+        recyclerView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
     }
 }
