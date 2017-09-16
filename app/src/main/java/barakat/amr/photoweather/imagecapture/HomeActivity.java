@@ -2,7 +2,9 @@ package barakat.amr.photoweather.imagecapture;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -44,7 +46,7 @@ public class HomeActivity extends BaseActivity implements ImageCaptureContract.V
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.getSavedImages(this);
+        presenter.requestPermissions(this);
     }
 
     @Override
@@ -63,7 +65,25 @@ public class HomeActivity extends BaseActivity implements ImageCaptureContract.V
 
     @OnClick(R.id.fab)
     void captureImage() {
-        presenter.captureImageRequest(this);
+        presenter.checkCamera(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case Constants.PERMISSIONS:
+                if (grantResults.length <= 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Need to access Camera!", Toast.LENGTH_SHORT).show();
+                } else if (grantResults.length <= 0 && grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Need your location!", Toast.LENGTH_SHORT).show();
+                } else if (grantResults.length <= 0 && grantResults[2] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Need access storage write!", Toast.LENGTH_SHORT).show();
+                } else if (grantResults.length <= 0 && grantResults[3] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Need access storage read!", Toast.LENGTH_SHORT).show();
+                } else {
+                    presenter.getSavedImages(this);
+                }
+        }
     }
 
     @Override

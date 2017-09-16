@@ -12,7 +12,7 @@ public interface ImageCaptureContract {
     interface Presenter {
         void attachView(View view);
 
-        void captureImageRequest(Context context);
+        void checkCamera(Activity activity);
 
         void openCamera(Activity activity, Uri fileUri);
 
@@ -23,6 +23,8 @@ public interface ImageCaptureContract {
         void onLocalDataLoaded(List<String> paths);
 
         void returnMediaFile(Uri uri);
+
+        void requestPermissions(Activity activity);
     }
 
     interface View {

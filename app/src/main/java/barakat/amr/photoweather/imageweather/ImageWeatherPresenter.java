@@ -30,13 +30,30 @@ public class ImageWeatherPresenter implements ImageWeatherContract.Presenter {
     }
 
     @Override
-    public void getLocation(Activity activity) {
+    public void requestLocation(Activity activity) {
         view.showLoading(true);
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    Constants.PERMISSION_ACCESS_COARSE_LOCATION);
+                    Constants.PERMISSIONS);
+        } else {
+            getLocation(activity);
         }
+    }
+
+    @Override
+    public void requestReadStore(Activity activity) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    Constants.PERMISSION_ACCESS_READ);
+        } else {
+            view.requestGranted();
+        }
+    }
+
+    @Override
+    public void getLocation(Activity activity) {
         GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(activity,
                 (GoogleApiClient.ConnectionCallbacks) activity, (GoogleApiClient.OnConnectionFailedListener) activity).addApi(LocationServices.API).build();
 

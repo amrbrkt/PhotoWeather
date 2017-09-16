@@ -1,5 +1,6 @@
 package barakat.amr.photoweather;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,7 +15,7 @@ import java.io.File;
 import java.io.InputStream;
 
 public class ImageFileUtils {
-    public static boolean isDeviceSupportCamera(Context context) {
+    public static boolean isDeviceSupportCamera(Activity context) {
         return context.getPackageManager().hasSystemFeature(
                 PackageManager.FEATURE_CAMERA);
     }

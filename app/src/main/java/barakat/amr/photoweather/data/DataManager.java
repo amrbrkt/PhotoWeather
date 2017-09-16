@@ -18,7 +18,7 @@ public interface DataManager {
 
     void getWeather(double lat, double lon);
 
-    void writeImageFile(int type);
+    void writeImageFile(Context context, int type);
 
     void drawOnImage(Context context, Weather weather, Uri fileUri) throws FileNotFoundException;
 

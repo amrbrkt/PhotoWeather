@@ -1,10 +1,15 @@
 package barakat.amr.photoweather.imagecapture;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import java.util.List;
 
@@ -29,9 +34,9 @@ public class ImageCapturePresenter implements ImageCaptureContract.Presenter {
     }
 
     @Override
-    public void captureImageRequest(Context context) {
-        if (ImageFileUtils.isDeviceSupportCamera(context)) {
-            AppDataManager.getInstance().writeImageFile(MEDIA_TYPE_IMAGE);
+    public void checkCamera(Activity activity) {
+        if (ImageFileUtils.isDeviceSupportCamera(activity)) {
+            AppDataManager.getInstance().writeImageFile(activity, MEDIA_TYPE_IMAGE);
         } else {
             view.onCaptureReady(true, null);
         }
@@ -68,9 +73,22 @@ public class ImageCapturePresenter implements ImageCaptureContract.Presenter {
     @Override
     public void returnMediaFile(Uri uri) {
         if (uri != null) {
+            Log.d("URI", uri.toString());
             view.onCaptureReady(true, uri);
         } else {
             view.onCaptureReady(true, null);
         }
+    }
+
+    @Override
+    public void requestPermissions(Activity activity) {
+        ActivityCompat.requestPermissions(activity,
+                new String[]{Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+                },
+                Constants.PERMISSIONS);
     }
 }

@@ -44,6 +44,7 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
     private GoogleApiClient googleApiClient;
     private ImageWeatherPresenter presenter = new ImageWeatherPresenter();
     private Uri fileUri;
+    private Weather weather;
 
     @Override
     protected int getActivityTitle() {
@@ -69,7 +70,7 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
             if (isViewOnly) {
                 viewImage();
             } else {
-                presenter.getLocation(this);
+                presenter.requestLocation(this);
             }
         } else {
             Toast.makeText(activity, "An Error Occurred", Toast.LENGTH_SHORT).show();
@@ -85,9 +86,18 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case Constants.PERMISSION_ACCESS_COARSE_LOCATION:
+            case Constants.PERMISSIONS:
                 if (grantResults.length <= 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Need your location!", Toast.LENGTH_SHORT).show();
+                }else {
+                    presenter.requestReadStore(this);
+                }
+                break;
+            case Constants.PERMISSION_ACCESS_READ:
+                if (grantResults.length <= 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Need your location!", Toast.LENGTH_SHORT).show();
+                }else {
+                    //presenter.drawOnImage(this);
                 }
                 break;
         }
@@ -114,12 +124,19 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
 
     @Override
     public void onWeatherUpdate(Weather weather) {
+        this.weather = weather;
+        presenter.requestReadStore(this);
+
+
+    }
+
+    @Override
+    public void requestGranted() {
         try {
             presenter.drawOnImage(this, fileUri, weather);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

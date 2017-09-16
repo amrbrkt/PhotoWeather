@@ -24,6 +24,10 @@ public class ImageWeatherContract {
         void onWeatherUpdate(Weather weather);
 
         void returnAfterDraw(Uri fileUri);
+
+        void requestLocation(Activity activity);
+
+        void requestReadStore(Activity activity);
     }
 
     public interface View {
@@ -36,5 +40,7 @@ public class ImageWeatherContract {
         void onWeatherFailed(String cause);
 
         void onTextDrawn(Uri fileUri);
+
+        void requestGranted();
     }
 }

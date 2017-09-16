@@ -3,6 +3,7 @@ package barakat.amr.photoweather.data;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import java.io.File;
@@ -78,7 +79,7 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public void writeImageFile(int type) {
+    public void writeImageFile(Context context, int type) {
 
         // External sdcard location
         File mediaStorageDir = ImageFileUtils.getImageDirectory();
@@ -91,7 +92,7 @@ public class AppDataManager implements DataManager {
                 capturePresenter.returnMediaFile(null);
             }
         }
-
+        File imagePath = new File(context.getFilesDir(), "images");
         File mediaFile = null;
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
@@ -99,8 +100,8 @@ public class AppDataManager implements DataManager {
         } else {
             capturePresenter.returnMediaFile(null);
         }
-
-        capturePresenter.returnMediaFile(Uri.fromFile(mediaFile));
+        Uri uri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".barakat.amr.photoweather.provider", mediaFile);
+        capturePresenter.returnMediaFile(uri);
 
     }
 
