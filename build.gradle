@@ -21,3 +21,13 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    // App dependencies
+    buildToolsVersion ='25.3.1'
+    supportLibrary ='25.3.1'
+    playserviceVersion = '11.0.4'
+    butterKnifeVersion = '8.6.0'
+    retrofitVersion = '2.1.0'
+    glideVersion = '4.1.1'
+}
