@@ -3,6 +3,7 @@ package barakat.amr.photoweather.weather;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import barakat.amr.photoweather.Constants;
 import barakat.amr.photoweather.R;
@@ -152,7 +154,16 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
         sharingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
         sharingIntent.setType("image/png");
-        startActivity(Intent.createChooser(sharingIntent, "Send image using.."));
+
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(sharingIntent, 0);
+        boolean isIntentSafe = activities.size() > 0;
+
+        // Start an activity after checking existing of implicit activities
+        if (isIntentSafe) {
+            startActivity(Intent.createChooser(sharingIntent, "Send image using.."));
+        }
+
     }
 
     @Override
