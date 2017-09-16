@@ -1,4 +1,4 @@
-package barakat.amr.photoweather.capture;
+package barakat.amr.photoweather.imagecapture;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -16,11 +16,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import barakat.amr.photoweather.weather.ImageWeatherContract;
+import barakat.amr.photoweather.imageweather.ImageWeatherContract;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
-public class ImageUtils {
+public class ImageCaptureUtils {
 
     private static final String IMAGE_DIRECTORY_NAME = "PhotoWeather";
 

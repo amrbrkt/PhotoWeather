@@ -1,4 +1,4 @@
-package barakat.amr.photoweather.capture;
+package barakat.amr.photoweather.imagecapture;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

@@ -1,4 +1,4 @@
-package barakat.amr.photoweather.capture;
+package barakat.amr.photoweather.imagecapture;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.net.Uri;
 
 import java.util.List;
 
-public interface CaptureImageContract {
+public interface ImageCaptureContract {
 
     interface Presenter {
         void attachView(View view);

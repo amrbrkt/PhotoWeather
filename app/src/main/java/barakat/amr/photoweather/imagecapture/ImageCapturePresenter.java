@@ -1,4 +1,4 @@
-package barakat.amr.photoweather.capture;
+package barakat.amr.photoweather.imagecapture;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,23 +9,23 @@ import android.provider.MediaStore;
 import java.util.List;
 
 import barakat.amr.photoweather.Constants;
-import barakat.amr.photoweather.weather.ImageWeatherActivity;
+import barakat.amr.photoweather.imageweather.ImageWeatherActivity;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
-public class CaptureImagePresenter implements CaptureImageContract.Presenter {
+public class ImageCapturePresenter implements ImageCaptureContract.Presenter {
 
-    private CaptureImageContract.View view;
+    private ImageCaptureContract.View view;
 
     @Override
-    public void attachView(CaptureImageContract.View view) {
+    public void attachView(ImageCaptureContract.View view) {
         this.view = view;
     }
 
     @Override
     public void captureImageRequest(Context context) {
-        if (ImageUtils.isDeviceSupportCamera(context)) {
-            Uri fileUri = ImageUtils.getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+        if (ImageCaptureUtils.isDeviceSupportCamera(context)) {
+            Uri fileUri = ImageCaptureUtils.getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
             view.onCaptureReady(true, fileUri);
         } else {
             view.onCaptureReady(true, null);
@@ -49,7 +49,7 @@ public class CaptureImagePresenter implements CaptureImageContract.Presenter {
     @Override
     public void getSavedImages(Context context) {
 
-        List<String> paths = ImageUtils.getPaths();
+        List<String> paths = ImageCaptureUtils.getPaths();
         if (paths != null && paths.size() > 0) {
             view.onLocalDataLoaded(paths);
         }

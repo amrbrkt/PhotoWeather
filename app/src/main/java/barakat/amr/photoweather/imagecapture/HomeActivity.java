@@ -1,4 +1,4 @@
-package barakat.amr.photoweather.capture;
+package barakat.amr.photoweather.imagecapture;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,11 +15,11 @@ import barakat.amr.photoweather.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity implements CaptureImageContract.View {
+public class HomeActivity extends BaseActivity implements ImageCaptureContract.View {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    private CaptureImagePresenter presenter = new CaptureImagePresenter();
+    private ImageCapturePresenter presenter = new ImageCapturePresenter();
     private Uri fileUri;
 
     @Override

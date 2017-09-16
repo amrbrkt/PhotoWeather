@@ -1,4 +1,4 @@
-package barakat.amr.photoweather.weather;
+package barakat.amr.photoweather.imageweather;
 
 import android.Manifest;
 import android.app.Activity;
@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import barakat.amr.photoweather.Constants;
-import barakat.amr.photoweather.capture.ImageUtils;
+import barakat.amr.photoweather.imagecapture.ImageCaptureUtils;
 import barakat.amr.photoweather.data.model.Weather;
 import barakat.amr.photoweather.data.remote.RestClient;
 import retrofit2.Call;
@@ -78,7 +78,7 @@ public class ImageWeatherPresenter implements ImageWeatherContract.Presenter {
 
 
         try {
-            ImageUtils.saveOnUri(fileUri, newBitmap, view);
+            ImageCaptureUtils.saveOnUri(fileUri, newBitmap, view);
         } catch (IOException e) {
             e.printStackTrace();
         }

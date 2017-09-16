@@ -1,4 +1,4 @@
-package barakat.amr.photoweather.weather;
+package barakat.amr.photoweather.imageweather;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

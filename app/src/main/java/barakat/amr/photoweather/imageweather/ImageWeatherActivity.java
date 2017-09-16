@@ -1,4 +1,4 @@
-package barakat.amr.photoweather.weather;
+package barakat.amr.photoweather.imageweather;
 
 import android.Manifest;
 import android.content.Intent;

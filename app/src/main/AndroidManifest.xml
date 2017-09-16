@@ -16,9 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".capture.HomeActivity"
+            android:name=".imagecapture.HomeActivity"
             android:label="@string/app_name"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +28,12 @@
         </activity>
 
         <activity
-            android:name=".weather.ImageWeatherActivity"
-            android:configChanges="orientation"
+            android:name=".imageweather.ImageWeatherActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".imagecapture.ImageViewActivity"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

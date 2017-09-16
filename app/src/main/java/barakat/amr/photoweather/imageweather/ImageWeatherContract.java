@@ -1,8 +1,7 @@
-package barakat.amr.photoweather.weather;
+package barakat.amr.photoweather.imageweather;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 
 import com.google.android.gms.common.api.GoogleApiClient;

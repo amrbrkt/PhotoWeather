@@ -1,18 +1,13 @@
 package barakat.amr.photoweather.data.model;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Weather{
 
 	@SerializedName("dt")
 	private int dt;
-
-	@SerializedName("rain")
-	private Rain rain;
-
-	@SerializedName("coord")
-	private Coord coord;
 
 	@SerializedName("weather")
 	private List<WeatherItem> weather;
@@ -26,17 +21,11 @@ public class Weather{
 	@SerializedName("main")
 	private Main main;
 
-	@SerializedName("clouds")
-	private Clouds clouds;
-
 	@SerializedName("id")
 	private int id;
 
 	@SerializedName("sys")
 	private Sys sys;
-
-	@SerializedName("wind")
-	private Wind wind;
 
 	public void setDt(int dt){
 		this.dt = dt;
@@ -44,22 +33,6 @@ public class Weather{
 
 	public int getDt(){
 		return dt;
-	}
-
-	public void setRain(Rain rain){
-		this.rain = rain;
-	}
-
-	public Rain getRain(){
-		return rain;
-	}
-
-	public void setCoord(Coord coord){
-		this.coord = coord;
-	}
-
-	public Coord getCoord(){
-		return coord;
 	}
 
 	public void setWeather(List<WeatherItem> weather){
@@ -94,14 +67,6 @@ public class Weather{
 		return main;
 	}
 
-	public void setClouds(Clouds clouds){
-		this.clouds = clouds;
-	}
-
-	public Clouds getClouds(){
-		return clouds;
-	}
-
 	public void setId(int id){
 		this.id = id;
 	}
@@ -116,13 +81,5 @@ public class Weather{
 
 	public Sys getSys(){
 		return sys;
-	}
-
-	public void setWind(Wind wind){
-		this.wind = wind;
-	}
-
-	public Wind getWind(){
-		return wind;
 	}
 }
