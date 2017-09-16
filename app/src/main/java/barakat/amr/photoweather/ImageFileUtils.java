@@ -46,7 +46,7 @@ public class ImageFileUtils {
         Paint tempPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         tempPaint.setColor(Color.WHITE);
         tempPaint.setStyle(Paint.Style.FILL);
-        tempPaint.setTextSize(newImage.getWidth() / 2);
+        tempPaint.setTextSize(newImage.getWidth() / 8);
         tempPaint.setShadowLayer(3f, -2f, 2f, Color.BLACK);
 
         Rect tempRect = new Rect();
@@ -59,7 +59,7 @@ public class ImageFileUtils {
         Paint conditionPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         conditionPaint.setColor(Color.WHITE);
         conditionPaint.setStyle(Paint.Style.FILL);
-        conditionPaint.setTextSize(newImage.getWidth() / 4);
+        conditionPaint.setTextSize(newImage.getWidth() / 16);
         conditionPaint.setShadowLayer(3f, -2f, 2f, Color.BLACK);
 
         Rect conditionRect = new Rect();
@@ -72,7 +72,7 @@ public class ImageFileUtils {
         Paint locationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         locationPaint.setColor(Color.WHITE);
         locationPaint.setStyle(Paint.Style.FILL);
-        locationPaint.setTextSize(newImage.getWidth() / 4);
+        locationPaint.setTextSize(newImage.getWidth() / 16);
         locationPaint.setShadowLayer(3f, -2f, 2f, Color.BLACK);
 
         Rect locationRect = new Rect();
