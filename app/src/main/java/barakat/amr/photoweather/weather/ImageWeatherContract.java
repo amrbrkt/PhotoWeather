@@ -1,9 +1,13 @@
 package barakat.amr.photoweather.weather;
 
 import android.app.Activity;
-import android.location.Location;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.io.FileNotFoundException;
 
 import barakat.amr.photoweather.data.model.Weather;
 
@@ -15,9 +19,11 @@ public class ImageWeatherContract {
         void getLocation(Activity activity);
 
         void getWeatherOf(double lat, double lon);
+
+        void drawOnImage(Context context, Uri fileUri, Weather weather) throws FileNotFoundException;
     }
 
-    interface View {
+    public interface View {
         void showLoading(boolean isLoading);
 
         void onLocationClient(GoogleApiClient googleApiClient);
@@ -25,5 +31,7 @@ public class ImageWeatherContract {
         void onWeatherUpdate(Weather weather);
 
         void onWeatherFailed(String cause);
+
+        void onTextDrawn(Uri fileUri);
     }
 }

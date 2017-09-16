@@ -2,14 +2,19 @@ package barakat.amr.photoweather.capture;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import barakat.amr.photoweather.weather.ImageWeatherContract;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
@@ -58,5 +63,14 @@ public class ImageUtils {
         }
 
         return mediaFile;
+    }
+
+    public static void saveOnUri(Uri fileUri, Bitmap bitmap, ImageWeatherContract.View view) throws IOException {
+        File file = new File(fileUri.getPath());
+        FileOutputStream fOut = new FileOutputStream(file);
+
+        bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+        fOut.flush();
+        fOut.close();
     }
 }

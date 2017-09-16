@@ -1,20 +1,22 @@
 package barakat.amr.photoweather.weather;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -26,13 +28,17 @@ import barakat.amr.photoweather.R;
 import barakat.amr.photoweather.base.BaseActivity;
 import barakat.amr.photoweather.data.model.Weather;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class ImageWeatherActivity extends BaseActivity implements ImageWeatherContract.View, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     @BindView(R.id.imageView)
-    SimpleDraweeView imageView;
+    ImageView imageView;
     @BindView(R.id.progress)
     ProgressBar progressBar;
+    @BindView(R.id.share_fab)
+    FloatingActionButton shareButton;
+
     private GoogleApiClient googleApiClient;
     private ImageWeatherPresenter presenter = new ImageWeatherPresenter();
     private Uri fileUri;
@@ -57,7 +63,6 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
         presenter.attachView(this);
         if (getIntent() != null) {
             fileUri = Uri.parse(getIntent().getStringExtra(Constants.IMAGE_URI));
-            //imageView.setImageURI(fileUri);
             presenter.getLocation(this);
         } else {
             Toast.makeText(activity, "An Error Occurred", Toast.LENGTH_SHORT).show();
@@ -78,10 +83,15 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
 
     @Override
     public void showLoading(boolean isLoading) {
+        Log.d("showLoading", " " + isLoading);
         if (isLoading) {
             progressBar.setVisibility(View.VISIBLE);
+            shareButton.setVisibility(View.GONE);
+            imageView.setVisibility(View.GONE);
         } else {
             progressBar.setVisibility(View.GONE);
+            shareButton.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -92,18 +102,20 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
 
     @Override
     public void onWeatherUpdate(Weather weather) {
-        Toast.makeText(activity, String.valueOf(weather.getMain().getTempMax()), Toast.LENGTH_LONG).show();
-        Bitmap newbitmap;
         try {
-            newbitmap = ImageWeatherUtils.writeOnImage(getContentResolver().openInputStream(fileUri),
-                    String.valueOf(weather.getMain().getTempMax()),
-                    weather.getWeather().get(0).getMain(),
-                    weather.getSys().getCountry());
-            imageView.setImageBitmap(newbitmap);
+            presenter.drawOnImage(this, fileUri, weather);
         } catch (FileNotFoundException e) {
-            Toast.makeText(activity, "Failed to draw text", Toast.LENGTH_SHORT).show();
-            imageView.setImageURI(fileUri);
+            e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void onTextDrawn(Uri fileUri) {
+        Log.d("onTextDrawn", fileUri.toString());
+        Glide.with(this)
+                .load(fileUri)
+                .into(imageView);
     }
 
     @Override
@@ -132,6 +144,15 @@ public class ImageWeatherActivity extends BaseActivity implements ImageWeatherCo
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(activity, "Google Apis Connection failed", Toast.LENGTH_SHORT).show();
 
+    }
+
+    @OnClick(R.id.share_fab)
+    void share() {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        sharingIntent.setType("image/png");
+        startActivity(Intent.createChooser(sharingIntent, "Send image using.."));
     }
 
     @Override
