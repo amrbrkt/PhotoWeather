@@ -11,7 +11,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import barakat.amr.photoweather.weather.ImageWeatherContract;
@@ -20,7 +22,7 @@ import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 public class ImageUtils {
 
-    private static final String IMAGE_DIRECTORY_NAME = "Photo Weather";
+    private static final String IMAGE_DIRECTORY_NAME = "PhotoWeather";
 
     public static boolean isDeviceSupportCamera(Context context) {
         return context.getPackageManager().hasSystemFeature(
@@ -31,16 +33,19 @@ public class ImageUtils {
         return Uri.fromFile(getOutputMediaFile(type));
     }
 
+    public static File getImageDirectory(){
+        return new File(
+                Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                IMAGE_DIRECTORY_NAME);
+    }
     /**
      * returning image / video
      */
     private static File getOutputMediaFile(int type) {
 
         // External sdcard location
-        File mediaStorageDir = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                IMAGE_DIRECTORY_NAME);
+        File mediaStorageDir = getImageDirectory();
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
@@ -57,7 +62,7 @@ public class ImageUtils {
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "IMG_" + timeStamp + ".jpg");
+                    + timeStamp + ".jpg");
         } else {
             return null;
         }
@@ -72,5 +77,14 @@ public class ImageUtils {
         bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
         fOut.flush();
         fOut.close();
+    }
+
+    public static List<String> getPaths() {
+        File path = getImageDirectory();
+        if (path.exists()) {
+            String[] fileNames = path.list();
+            return Arrays.asList(fileNames);
+        }
+        return null;
     }
 }

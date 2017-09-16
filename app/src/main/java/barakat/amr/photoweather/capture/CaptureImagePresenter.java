@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import java.util.List;
+
 import barakat.amr.photoweather.Constants;
 import barakat.amr.photoweather.weather.ImageWeatherActivity;
 
@@ -42,5 +44,14 @@ public class CaptureImagePresenter implements CaptureImageContract.Presenter {
         Intent intent = new Intent(activity, ImageWeatherActivity.class);
         intent.putExtra(Constants.IMAGE_URI, fileUri.toString());
         activity.startActivity(intent);
+    }
+
+    @Override
+    public void getSavedImages(Context context) {
+
+        List<String> paths = ImageUtils.getPaths();
+        if (paths != null && paths.size() > 0) {
+            view.onLocalDataLoaded(paths);
+        }
     }
 }

@@ -3,14 +3,21 @@ package barakat.amr.photoweather.capture;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import barakat.amr.photoweather.Constants;
 import barakat.amr.photoweather.R;
 import barakat.amr.photoweather.base.BaseActivity;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity implements CaptureImageContract.View {
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     private CaptureImagePresenter presenter = new CaptureImagePresenter();
     private Uri fileUri;
@@ -28,6 +35,12 @@ public class HomeActivity extends BaseActivity implements CaptureImageContract.V
     @Override
     protected void afterActivityInflation() {
         presenter.attachView(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getSavedImages(this);
     }
 
     @Override
@@ -59,5 +72,13 @@ public class HomeActivity extends BaseActivity implements CaptureImageContract.V
                     "Sorry! Your device doesn't support camera",
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onLocalDataLoaded(List<String> paths) {
+        ImagesAdapter adapter = new ImagesAdapter(this, paths);
+        GridLayoutManager manager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
     }
 }
